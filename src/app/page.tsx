@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useLayoutEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   ShoppingBag, ArrowRight, Smartphone, Cpu, Star, Tag, Shield, CreditCard, 
@@ -21,6 +21,18 @@ const PRODUCTS = [
 
 export default function TitanUltimateExperience() {
   const [isCartOpen, setIsCartOpen] = useState(false);
+
+  // KODI PËR DËRGIMIN NË FILLIM TË FAQES GJATË REFRESH
+  useLayoutEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <main className="bg-[#020202] text-white min-h-screen selection:bg-blue-600/40 font-sans overflow-x-hidden">
