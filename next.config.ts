@@ -1,10 +1,21 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: 'export', // KJO ËSHTË E RËNDËSISHME
+  output: 'export', 
   reactCompiler: true,
   images: {
-    unoptimized: true, // Duhet për export statik
+    unoptimized: true, 
+    // SHTO KËTË PJESË QË TË DALIN FOTOT 100%
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'images.pexels.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+      },
+    ],
   },
   allowedDevOrigins: [
     "http://192.168.56.1",
