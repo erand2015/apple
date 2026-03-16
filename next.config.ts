@@ -1,11 +1,10 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: 'export', 
+  // HIQE rreshtin output: 'export'
   reactCompiler: true,
   images: {
-    unoptimized: true, 
-    // SHTO KËTË PJESË QË TË DALIN FOTOT 100%
+    unoptimized: true, // E lëmë këtë që fotot të ngarkohen shpejt
     remotePatterns: [
       {
         protocol: 'https',
@@ -17,11 +16,6 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  allowedDevOrigins: [
-    "http://192.168.56.1",
-    "http://localhost:3000",
-    "http://127.0.0.1:3000",
-  ],
 };
 
 export default nextConfig;
