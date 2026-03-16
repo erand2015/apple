@@ -1,213 +1,171 @@
 "use client";
 
-import React, { useState, useEffect, useLayoutEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import React from "react";
+import { motion } from "framer-motion";
 import { 
-  ShoppingBag, X, Search, MapPin, Settings, Smartphone, Cpu, CreditCard, Shield 
+  ShoppingBag, Search, ChevronRight, ShieldCheck, 
+  Truck, RotateCcw, CreditCard, Plus 
 } from "lucide-react";
-import TelefonaPage from "./telefona";
 
-const PRODUCTS = [
-  { id: 1, name: "Titan Pro X", cat: "Phone", price: "1,199 €", old: "1,399 €", img: "https://images.pexels.com/photos/805922/pexels-photo-805922.jpeg?auto=compress&cs=tinysrgb&w=800", tag: "Hot" },
-  { id: 2, name: "Neural Watch 2", cat: "Wearable", price: "299 €", old: "399 €", img: "https://images.pexels.com/photos/437037/pexels-photo-437037.jpeg?auto=compress&cs=tinysrgb&w=800", tag: "-25%" },
-  { id: 3, name: "Sonic Buds Max", cat: "Audio", price: "149 €", old: "249 €", img: "https://images.pexels.com/photos/3394651/pexels-photo-3394651.jpeg?auto=compress&cs=tinysrgb&w=800", tag: "Sale" },
-  { id: 4, name: "M2 Ultra Laptop", cat: "Computing", price: "2,199 €", old: "2,499 €", img: "https://images.pexels.com/photos/18105/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=800", tag: "Pro" },
-  { id: 5, name: "Titan Tab S12", cat: "Tablet", price: "799 €", old: "950 €", img: "https://images.pexels.com/photos/1334597/pexels-photo-1334597.jpeg?auto=compress&cs=tinysrgb&w=800", tag: "New" },
-  { id: 6, name: "G-Force Rig", cat: "Gaming", price: "3,499 €", old: "3,999 €", img: "https://images.pexels.com/photos/3165335/pexels-photo-3165335.jpeg?auto=compress&cs=tinysrgb&w=800", tag: "Monster" },
+const HERO_SLIDES = [
+  {
+    id: 1,
+    category: "E RE",
+    title: "Titan Pro X",
+    subtitle: "Fuqia e inteligjencës artificiale në duart tuaja.",
+    price: "Nga 1,199 € ose 49.90 €/muaj",
+    img: "https://images.pexels.com/photos/805922/pexels-photo-805922.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    theme: "light",
+  },
+  {
+    id: 2,
+    category: "PRO",
+    title: "M2 Ultra Display",
+    subtitle: "Për ata që krijojnë të ardhmen.",
+    price: "Nga 1,599 €",
+    img: "https://images.pexels.com/photos/1029757/pexels-photo-1029757.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    theme: "dark",
+  }
 ];
 
-const fadeInUpVariants: any = {
-  hidden: { opacity: 0, y: 30 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
-};
+const NEW_PRODUCTS = [
+  { id: 101, name: "Titan Pad Air", price: "649 €", img: "https://images.pexels.com/photos/1334597/pexels-photo-1334597.jpeg?auto=compress&cs=tinysrgb&w=800", tag: "New" },
+  { id: 102, name: "MacBook Pro M3", price: "1,999 €", img: "https://images.pexels.com/photos/18105/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=800", tag: "Best Seller" },
+  { id: 103, name: "Titan Audio Pro", price: "249 €", img: "https://images.pexels.com/photos/3394651/pexels-photo-3394651.jpeg?auto=compress&cs=tinysrgb&w=800", tag: "Sale" },
+  { id: 104, name: "Neural Watch", price: "399 €", img: "https://images.pexels.com/photos/437037/pexels-photo-437037.jpeg?auto=compress&cs=tinysrgb&w=800", tag: "New" },
+];
 
-const staggerContainerVariants: any = {
-  hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { staggerChildren: 0.15 } }
-};
-
-export default function TitanUltimateExperience() {
-  const [isCartOpen, setIsCartOpen] = useState(false);
-  const [view, setView] = useState("home");
-  const [circuitLines, setCircuitLines] = useState<any[]>([]);
-
-  useEffect(() => {
-    const generated = Array.from({ length: 15 }).map((_, i) => ({
-      id: i,
-      x1: Math.random() * 90,
-      y1: Math.random() * 80,
-      length: Math.random() * 300 + 150,
-      direction: Math.random() > 0.5 ? 0 : 1,
-      duration: Math.random() * 2 + 1.5,
-      delay: Math.random() * 4,
-    }));
-    setCircuitLines(generated);
-  }, []);
-
-  useLayoutEffect(() => {
-    window.scrollTo(0, 0);
-  }, [view]);
-
+export default function TitanStore() {
   return (
-    <main className="bg-white text-black min-h-screen selection:bg-blue-600/40 font-sans overflow-x-hidden">
+    <main className="bg-white text-[#1d1d1f] font-sans overflow-x-hidden">
       
-      {/* 1. ANNOUNCEMENT BAR */}
-      <div className="bg-blue-600 text-black py-2.5 text-center text-[8px] md:text-[10px] font-black uppercase tracking-[0.2em] md:tracking-[0.3em] sticky top-0 z-[150] px-4">
-        TITAN GLOBAL EVENT 2026 • KODI "FUTURE" PËR ZBRITJE EKSTRA • DËRGESA FALAS NË TË GJITHË BALLKANIN
-      </div>
-
-      {/* 2. NAVIGATION */}
-      <nav className="sticky top-[30px] md:top-[35px] w-full z-[140] px-4 md:px-8 py-4 md:py-5 flex justify-between items-center backdrop-blur-2xl bg-white/60 border-b border-black/5">
-        <div onClick={() => setView("home")} className="text-xl md:text-2xl font-black italic tracking-tighter text-blue-500 cursor-pointer">TITAN.</div>
-        <div className="hidden lg:flex gap-8 text-[10px] font-mono uppercase tracking-widest text-zinc-700">
-          <button onClick={() => setView("telefona")} className="hover:text-black transition-colors">Telefona</button>
-          <button className="hover:text-black transition-colors">Laptopë</button>
-          <button className="hover:text-black transition-colors">Audio</button>
-          <button className="hover:text-black transition-colors">Smart Home</button>
-          <button className="text-red-500 font-bold">Outlet</button>
-        </div>
-        <div className="flex items-center gap-4 md:gap-6">
-          <Search size={18} className="text-zinc-700 cursor-pointer" />
-          <div className="relative cursor-pointer" onClick={() => setIsCartOpen(true)}>
-            <ShoppingBag className="w-5 h-5 md:w-6 md:h-6 text-black" />
-            <span className="absolute -top-2 -right-2 bg-blue-600 text-[8px] font-black px-1.5 py-0.5 rounded-full border border-white text-white">12</span>
+      {/* 1. NAVBAR I PËRSHTATUR PËR DYQAN */}
+      <nav className="fixed top-0 w-full z-[200] bg-white/80 backdrop-blur-2xl border-b border-[#d2d2d7]/30">
+        <div className="max-w-[1024px] mx-auto h-12 flex items-center justify-between px-6">
+          <div className="text-xl font-bold tracking-tighter cursor-pointer hover:opacity-70 transition-all">TITAN.</div>
+          <div className="hidden md:flex gap-8 text-[12px] font-medium text-[#1d1d1f]/80">
+            <button className="hover:text-blue-600 transition-colors">Telefona</button>
+            <button className="hover:text-blue-600 transition-colors">Laptopë</button>
+            <button className="hover:text-blue-600 transition-colors">Tableta</button>
+            <button className="hover:text-blue-600 transition-colors">Ora Inteligjente</button>
+            <button className="hover:text-blue-600 transition-colors">Aksesorë</button>
+            <button className="text-red-600 font-bold hover:text-red-500 transition-colors">Ofertat %</button>
+          </div>
+          <div className="flex items-center gap-5">
+            <Search size={18} className="cursor-pointer hover:opacity-60 transition-opacity" />
+            <div className="relative cursor-pointer group">
+              <ShoppingBag size={18} className="group-hover:opacity-60 transition-opacity" />
+              <span className="absolute -top-2 -right-2 bg-blue-600 text-white text-[9px] w-4 h-4 rounded-full flex items-center justify-center font-bold">4</span>
+            </div>
           </div>
         </div>
       </nav>
 
-      <AnimatePresence mode="wait">
-        {view === "home" ? (
-          <motion.div key="home-view" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-            {/* 3. HERO SECTION */}
-            <section className="relative h-[80vh] md:h-[90vh] flex items-center justify-center overflow-hidden bg-white">
-              
-              {/* SFONDI ME QARKUN ELEKTRIK */}
-              <div className="absolute inset-0 z-0">
-                {circuitLines.map((line) => (
-                  <div
-                    key={line.id}
-                    className="absolute bg-zinc-100/50"
-                    style={{
-                      width: line.direction === 0 ? `${line.length}px` : "2px",
-                      height: line.direction === 1 ? `${line.length}px` : "2px",
-                      left: `${line.x1}%`,
-                      top: `${line.y1}%`,
-                    }}
-                  >
-                    <motion.div
-                      className="absolute bg-blue-500 shadow-[0_0_15px_#2563eb]"
-                      style={{
-                        width: line.direction === 0 ? "80px" : "100%",
-                        height: line.direction === 1 ? "80px" : "100%",
-                        left: 0,
-                        top: 0,
-                      }}
-                      animate={line.direction === 0 ? {
-                        x: [-80, line.length, line.length],
-                        opacity: [0, 1, 0],
-                      } : {
-                        y: [-80, line.length, line.length],
-                        opacity: [0, 1, 0],
-                      }}
-                      transition={{
-                        duration: line.duration,
-                        delay: line.delay,
-                        repeat: Infinity,
-                        ease: "linear",
-                      }}
-                    />
-                  </div>
-                ))}
+      {/* 2. HERO SECTIONS - FULL SCREEN */}
+      <section className="w-full">
+        {HERO_SLIDES.map((slide) => (
+          <div key={slide.id} className="relative h-screen w-full flex flex-col items-center justify-start overflow-hidden border-b-8 border-white">
+            <div className="absolute inset-0 z-0">
+              <img src={slide.img} className="w-full h-full object-cover" alt={slide.title} />
+              <div className={`absolute inset-0 ${slide.theme === 'dark' ? 'bg-black/20' : 'bg-white/5'}`} />
+            </div>
+            <motion.div 
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 1, ease: "easeOut" }}
+              className={`relative z-10 text-center pt-28 px-4 ${slide.theme === 'dark' ? 'text-white' : 'text-[#1d1d1f]'}`}
+            >
+              <span className="text-orange-500 font-extrabold text-sm tracking-[0.2em] mb-3 block">{slide.category}</span>
+              <h1 className="text-5xl md:text-8xl font-bold tracking-tight mb-4">{slide.title}</h1>
+              <p className="text-xl md:text-3xl font-medium mb-2 opacity-90">{slide.subtitle}</p>
+              <p className="text-lg opacity-70 mb-8">{slide.price}</p>
+              <div className="flex flex-col md:flex-row justify-center items-center gap-6">
+                <button className="bg-[#0071e3] text-white px-10 py-3.5 rounded-full font-bold text-lg hover:bg-[#0077ed] hover:scale-105 transition-all shadow-lg">Bli Tani</button>
+                <button className={`flex items-center gap-1 text-xl font-medium hover:underline group ${slide.theme === 'dark' ? 'text-blue-400' : 'text-[#0066cc]'}`}>
+                  Shiko Detajet <ChevronRight size={22} className="group-hover:translate-x-1 transition-transform" />
+                </button>
               </div>
-
-              <div className="absolute inset-0 bg-gradient-to-b from-white/20 via-transparent to-white z-[1]" />
-
-              <motion.div 
-                className="relative z-10 text-center px-4"
-                initial="hidden"
-                animate="visible"
-                variants={staggerContainerVariants}
-              >
-                <motion.h1 variants={fadeInUpVariants} className="text-[18vw] md:text-[15vw] font-black italic uppercase leading-none tracking-tighter text-black drop-shadow-sm">TITAN.</motion.h1>
-                <motion.p variants={fadeInUpVariants} className="tracking-[0.5em] md:tracking-[1em] text-[10px] md:text-[12px] text-blue-600 font-bold mt-4">POWERED BY QUANTUM</motion.p>
-                <motion.button variants={fadeInUpVariants} onClick={() => setView("telefona")} className="mt-8 md:mt-12 bg-black text-white px-8 md:px-12 py-4 md:py-5 rounded-full font-black uppercase text-[10px] md:text-xs tracking-widest hover:bg-blue-600 hover:scale-105 transition-all shadow-2xl">Eksploro Katalogun</motion.button>
-              </motion.div>
-            </section>
-
-            {/* 4. KATALOGU */}
-            <section className="py-16 md:py-24 px-4 md:px-6 max-w-[1600px] mx-auto overflow-hidden">
-              <motion.div className="flex justify-between items-end mb-12 md:mb-16 border-b border-black/5 pb-8" initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} variants={fadeInUpVariants}>
-                 <h2 className="text-3xl md:text-5xl font-black italic uppercase tracking-tighter text-black">Katalogu Premium</h2>
-              </motion.div>
-              
-              <motion.div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-10" initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.1 }} variants={staggerContainerVariants}>
-                {PRODUCTS.map(p => (
-                  <motion.div key={p.id} variants={fadeInUpVariants} className="group relative bg-white rounded-[2rem] md:rounded-[3rem] p-6 md:p-10 border border-black/5 hover:border-blue-500/30 transition-all duration-500 hover:shadow-[0_20px_50px_rgba(0,0,0,0.05)]">
-                    <div className="relative h-60 md:h-72 overflow-hidden rounded-2xl mb-6 md:mb-8 bg-zinc-100">
-                         <img src={p.img} className="w-full h-full object-cover grayscale md:grayscale group-hover:grayscale-0 md:group-hover:scale-105 transition-all duration-500" />
-                    </div>
-                    <div className="flex justify-between items-start mb-6 text-left">
-                      <h4 className="text-xl md:text-2xl font-black italic uppercase mt-1">{p.name}</h4>
-                      <p className="text-xl md:text-2xl font-black text-blue-600 italic">{p.price}</p>
-                    </div>
-                    <button className="w-full bg-black text-white py-4 md:py-5 rounded-2xl font-black uppercase text-[10px] tracking-widest hover:bg-blue-600 transition-all">Shto në shportë</button>
-                  </motion.div>
-                ))}
-              </motion.div>
-            </section>
-
-            {/* 5. TABELA TEKNIKE */}
-            <motion.section className="py-20 md:py-32 bg-zinc-50 px-4 md:px-6 border-y border-black/5 overflow-hidden" initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} variants={fadeInUpVariants}>
-              <div className="max-w-4xl mx-auto overflow-x-auto text-center">
-                <h2 className="text-3xl md:text-4xl font-black italic uppercase text-black mb-12">Dominimi Teknik</h2>
-                <div className="border border-black/5 rounded-[1.5rem] md:rounded-[2.5rem] overflow-hidden bg-white">
-                   <table className="w-full text-left">
-                     <thead className="bg-zinc-100 font-mono text-[9px] md:text-[10px] uppercase text-zinc-600">
-                       <tr><th className="p-5 md:p-8">Feature</th><th className="p-5 md:p-8 text-blue-500">Titan</th><th className="p-5 md:p-8 text-black">Std</th></tr>
-                     </thead>
-                     <tbody className="text-xs md:text-sm font-bold italic text-black">
-                       <tr className="border-t border-black/5"><td className="p-5 md:p-8">Neural Processing</td><td className="p-5 md:p-8 text-blue-500">40 TOPS</td><td className="p-5 md:p-8 text-zinc-600">12 TOPS</td></tr>
-                       <tr className="border-t border-black/5"><td className="p-5 md:p-8">Battery Efficiency</td><td className="p-5 md:p-8 text-blue-500">+45%</td><td className="p-5 md:p-8 text-zinc-600">Base</td></tr>
-                     </tbody>
-                   </table>
-                </div>
-              </div>
-            </motion.section>
-
-            {/* 6. KESTET 0% */}
-            <motion.section className="py-20 md:py-32 px-4 md:px-6 bg-blue-600 text-black overflow-hidden" initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} variants={fadeInUpVariants}>
-              <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-10">
-                <div className="max-w-xl text-center md:text-left text-black">
-                  <h2 className="text-5xl md:text-7xl font-black italic uppercase tracking-tighter leading-none mb-6">Blije sot.<br/>Paguaj me këste.</h2>
-                </div>
-                <div className="flex gap-4">
-                   <div className="p-8 md:p-12 bg-black text-white rounded-[2rem] text-center"><p className="text-4xl md:text-6xl font-black">0%</p></div>
-                   <div className="p-8 md:p-12 bg-black text-white rounded-[2rem] text-center"><p className="text-4xl md:text-6xl font-black">24</p></div>
-                </div>
-              </div>
-            </motion.section>
-          </motion.div>
-        ) : (
-          <TelefonaPage onBack={() => setView("home")} />
-        )}
-      </AnimatePresence>
-
-      {/* FOOTER */}
-      <footer className="py-20 md:py-32 px-4 md:px-8 border-t border-black/5 bg-white text-center overflow-hidden">
-        <div className="opacity-10 font-black text-[12vw] md:text-[18vw] leading-none uppercase select-none tracking-tighter text-zinc-300">TITAN TECH</div>
-      </footer>
-
-      {/* CART SIDEBAR */}
-      <AnimatePresence>
-        {isCartOpen && (
-          <>
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setIsCartOpen(false)} className="fixed inset-0 bg-white/95 backdrop-blur-xl z-[200]" />
-            <motion.div initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }} className="fixed top-0 right-0 h-full w-full max-w-md bg-white z-[210] p-8 border-l border-black/5 shadow-2xl">
-              <div className="flex justify-between items-center mb-10"><h3 className="text-3xl font-black italic uppercase">Bag.</h3><X onClick={() => setIsCartOpen(false)} className="cursor-pointer" /></div>
             </motion.div>
-          </>
-        )}
-      </AnimatePresence>
+          </div>
+        ))}
+      </section>
+
+      {/* 3. SHËRBIMET E DYQANIT */}
+      <section className="py-20 bg-white px-6">
+        <div className="max-w-[1100px] mx-auto grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
+          <div className="p-8 rounded-3xl bg-[#f5f5f7] hover:shadow-xl transition-shadow">
+            <Truck size={40} className="mb-4 mx-auto text-blue-600" />
+            <h3 className="text-xl font-bold mb-2">Transport Falas</h3>
+            <p className="text-[#86868b] text-sm">Për çdo porosi mbi 100€ në të gjithë Shqipërinë.</p>
+          </div>
+          <div className="p-8 rounded-3xl bg-[#f5f5f7] hover:shadow-xl transition-shadow">
+            <CreditCard size={40} className="mb-4 mx-auto text-blue-600" />
+            <h3 className="text-xl font-bold mb-2">Pagesë me Këste</h3>
+            <p className="text-[#86868b] text-sm">Mundësi pagese deri në 24 muaj me 0% interes.</p>
+          </div>
+          <div className="p-8 rounded-3xl bg-[#f5f5f7] hover:shadow-xl transition-shadow">
+            <ShieldCheck size={40} className="mb-4 mx-auto text-blue-600" />
+            <h3 className="text-xl font-bold mb-2">Garanci 2-Vjeçare</h3>
+            <p className="text-[#86868b] text-sm">Mbështetje teknike dhe riparime të certifikuara.</p>
+          </div>
+        </div>
+      </section>
+
+      {/* 4. SEKSIONI I RI: PRODUKTE TË TJERA (GRID KOLEKSIONI) */}
+      <section className="py-24 bg-[#f5f5f7] px-6">
+        <div className="max-w-[1200px] mx-auto">
+          <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-12 text-center">Koleksioni i Fundit.</h2>
+          
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {NEW_PRODUCTS.map((product) => (
+              <motion.div 
+                key={product.id}
+                whileHover={{ y: -10 }}
+                className="bg-white p-6 rounded-[2.5rem] flex flex-col items-center shadow-sm hover:shadow-2xl transition-all duration-500"
+              >
+                <div className="relative w-full h-48 mb-6 overflow-hidden rounded-2xl">
+                  <span className="absolute top-2 left-2 bg-zinc-100 text-[10px] font-bold px-2 py-1 rounded-md z-10">{product.tag}</span>
+                  <img src={product.img} alt={product.name} className="w-full h-full object-contain" />
+                </div>
+                <h3 className="text-xl font-bold mb-1">{product.name}</h3>
+                <p className="text-blue-600 font-semibold mb-6">{product.price}</p>
+                <button className="w-full py-3 bg-[#f5f5f7] hover:bg-black hover:text-white rounded-full font-bold text-sm transition-colors flex items-center justify-center gap-2 group">
+                  Shto në shportë <Plus size={16} className="group-hover:rotate-90 transition-transform" />
+                </button>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 5. FOOTER INFORMACIONI */}
+      <footer className="bg-[#f5f5f7] py-16 px-6 border-t border-[#d2d2d7]">
+        <div className="max-w-[1024px] mx-auto text-[12px] text-[#424245]">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-10">
+            <div>
+              <h4 className="font-bold text-black mb-4">Dyqani</h4>
+              <ul className="space-y-2"><li>Gjej Dyqanin</li><li>Statusi i Porosisë</li><li>Mënyrat e Pagesës</li></ul>
+            </div>
+            <div>
+              <h4 className="font-bold text-black mb-4">Suporti</h4>
+              <ul className="space-y-2"><li>Qendra e Ndihmës</li><li>Riparimet</li><li>Kontakto Ne</li></ul>
+            </div>
+            <div>
+              <h4 className="font-bold text-black mb-4">Llogaria</h4>
+              <ul className="space-y-2"><li>Menaxho Llogarinë</li><li>Titan Cloud</li><li>Historia e Blerjeve</li></ul>
+            </div>
+            <div>
+              <h4 className="font-bold text-black mb-4">Rreth Nesh</h4>
+              <ul className="space-y-2"><li>Lajmet</li><li>Karriera</li><li>Mjedisi</li></ul>
+            </div>
+          </div>
+          <div className="pt-8 border-t border-[#d2d2d7] flex flex-col md:flex-row justify-between">
+            <p>© 2026 Titan Electronics Albania. Të gjitha të drejtat e rezervuara.</p>
+            <div className="flex gap-4 mt-4 md:mt-0"><span>Politika e Privatësisë</span><span>Kushtet e Blerjes</span></div>
+          </div>
+        </div>
+      </footer>
     </main>
   );
 }
